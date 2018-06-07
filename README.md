@@ -12,3 +12,6 @@
 
 ## Issues
 Make sure the paths in the script match you local directory structure
+
+## More information
+For more detailed information on this process see this [guide](https://github.com/fheng/help/blob/master/new_hires/new_hire_chapter_2.2.md)
