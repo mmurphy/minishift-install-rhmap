@@ -12,6 +12,7 @@ The script does the following
 
 ## Prerequisites
 - Docker installed and logged into
+- Ansible installed
 - [Minishift installed](https://github.com/fheng/help/blob/master/new_hires/new_hire_chapter_2.2.md#install-minishift-locally) 
 - An inventory file for your cluster in your home directory e.g. [minishift-example](https://github.com/fheng/help/blob/master/new_hires/new_hire_chapter_2.2.md#create-a-minishift-inventory-file)
 - The following repos cloned to your home/work directory
