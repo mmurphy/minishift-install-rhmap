@@ -4,5 +4,5 @@
 - Minishift installed 
 - An inventory file for your cluster e.g. minishift-example
 
-## Gotachs
-make sure the paths in the script match you local directory structor
+## Issues
+Make sure the paths in the script match you local directory structure
