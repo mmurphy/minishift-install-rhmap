@@ -15,8 +15,6 @@ EOL
 echo "oc_observe_dev created "
 chmod +x ./oc_observe_dev.sh
 echo "premissions set "
-oc delete secret docker-pull-secret
-echo "delete old secret"
 oc observe projects -- ./oc_observe_dev.sh &
 echo "observe project and set secret"
 
@@ -26,20 +24,20 @@ echo "observe project and set secret"
 echo "enter branch/tag name e.g. release-4.6.0-rc1:"
 read branch
 
-cd /nfs/work/fh-openshift-templates
+cd ~/work/fh-openshift-templates
 git checkout "$branch"
-cd /nfs/work/fh-core-openshift-templates
+cd ~/work/fh-core-openshift-templates
 git checkout "$branch"
-cd /nfs/work/rhmap-ansible
+cd ~/work/rhmap-ansible
 git checkout "$branch"
 
 
 # ansible installer for rhmap
-sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=/nfs/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=/nfs/work/fh-openshift-templates -e mbaas_target_id=test playbooks/core.yml
-sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=/nfs/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=/nfs/work/fh-openshift-templates -e mbaas_target_id=test playbooks/1-node-mbaas.yml
+sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/core.yml
+sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/1-node-mbaas.yml
 
 # details for mbaas
-oc project 1-node-mbaas
+oc project rhmap-1-node-mbaas
 echo " "
 echo "__________________________________________________________________________________________________________________ "
 echo " "
