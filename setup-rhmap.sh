@@ -3,7 +3,10 @@
 # setting the docker pull secret for any new pod
 oc login -u developer -p developer
 
+# kill and remove existing observe process
 rm oc_observe_dev.sh
+kill $(ps aux | grep '[o]c_observe_dev' | awk '{print $2}')
+
 cat > ./oc_observe_dev.sh <<EOL             
 #!/bin/bash
 oc secrets new docker-pull-secret .dockerconfigjson=${HOME}/.docker/config.json --namespace=\$1 2>/dev/null
@@ -25,10 +28,19 @@ echo "enter branch/tag name e.g. release-4.6.0-rc1:"
 read branch
 
 cd ~/work/fh-openshift-templates
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 cd ~/work/fh-core-openshift-templates
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 cd ~/work/rhmap-ansible
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 
 
