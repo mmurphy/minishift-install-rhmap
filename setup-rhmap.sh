@@ -3,7 +3,10 @@
 # setting the docker pull secret for any new pod
 oc login -u developer -p developer
 
+# kill the old observe process and remove the old script
 rm oc_observe_dev.sh
+kill $(ps aux | grep '[o]c_observe_dev' | awk '{print $2}')
+
 cat > ./oc_observe_dev.sh <<EOL             
 #!/bin/bash
 oc secrets new docker-pull-secret .dockerconfigjson=${HOME}/.docker/config.json --namespace=\$1 2>/dev/null
@@ -15,8 +18,6 @@ EOL
 echo "oc_observe_dev created "
 chmod +x ./oc_observe_dev.sh
 echo "premissions set "
-oc delete secret docker-pull-secret
-echo "delete old secret"
 oc observe projects -- ./oc_observe_dev.sh &
 echo "observe project and set secret"
 
@@ -27,10 +28,19 @@ echo "enter branch/tag name e.g. release-4.6.0-rc1:"
 read branch
 
 cd /nfs/work/fh-openshift-templates
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 cd /nfs/work/fh-core-openshift-templates
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 cd /nfs/work/rhmap-ansible
+git checkout master 
+git pull upstream master
+git fetch upstream master --prune --tags
 git checkout "$branch"
 
 
