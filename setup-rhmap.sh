@@ -18,10 +18,23 @@ EOL
 echo "oc_observe_dev created "
 chmod +x ./oc_observe_dev.sh
 echo "premissions set "
-oc observe projects -- ./oc_observe_dev.sh &
+oc observe projects -- ./oc_observe_dev.sh & 2>/dev/null
 echo "observe project and set secret"
 
+# create the projects
+oc new-project rhmap-core
+oc new-project rhmap-1-node-mbaas
 
+# Create inventory file and add your Minishift IP address
+rm ~/minishift-example
+cp minishift-example ~/minishift-example
+echo Enter your Minishift IP address :
+read IP
+echo " "
+echo $IP
+echo " "
+echo "IP address set in inventory file"
+sed -i "s/ip_address/${IP}/g" ~/minishift-example
 
 # checkout the correct branch e.g. release-4.6.0-rc1
 echo "enter branch/tag name e.g. release-4.6.0-rc1:"
