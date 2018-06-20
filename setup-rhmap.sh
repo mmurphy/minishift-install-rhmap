@@ -18,7 +18,7 @@ EOL
 echo "oc_observe_dev created "
 chmod +x ./oc_observe_dev.sh
 echo "premissions set "
-oc observe projects -- ./oc_observe_dev.sh & 2>/dev/null
+oc observe projects -- ./oc_observe_dev.sh > /dev/null 2>&1 &
 echo "observe project and set secret"
 
 # create the projects
