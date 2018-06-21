@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # login to docker
 docker login
 
@@ -23,6 +24,14 @@ echo "premissions set "
 oc observe projects -- ./oc_observe_dev.sh > /dev/null 2>&1 &
 echo "observe project and set secret"
 
+
+# Delete existing project if "./setup-rhmap.sh -c"
+if [[ $1 = "-c" ]]
+then
+    echo "Deleting existing projects"
+    oc delete project rhmap-core
+    oc delete project rhmap-1-node-mbaas
+fi
 # create the projects
 oc new-project rhmap-core
 oc new-project rhmap-1-node-mbaas
