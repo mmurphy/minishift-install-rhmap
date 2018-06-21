@@ -1,4 +1,6 @@
 #!/bin/bash
+# login to docker
+docker login
 
 # setting the docker pull secret for any new pod
 oc login -u developer -p developer
