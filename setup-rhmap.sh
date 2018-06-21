@@ -1,11 +1,11 @@
 #!/bin/bash
 echo " "
-echo "___  ____       _     _     _  __ _         ______ _   _ ___  ___  ___  ______ "
-echo "|  \/  (_)     (_)   | |   (_)/ _| |        | ___ \ | | ||  \/  | / _ \ | ___ '\'"
-echo "| .  . |_ _ __  _ ___| |__  _| |_| |_   ___ | |_/ / |_| || .  . |/ /_\ \| |_/ /"
-echo "| |\/| | | '_ \| / __| '_ \| |  _| __| |___||    /|  _  || |\/| ||  _  ||  __/ "
-echo "| |  | | | | | | \__ \ | | | | | | |_       | |\ \| | | || |  | || | | || |    "
-echo "\_|  |_/_|_| |_|_|___/_| |_|_|_|  \__|      \_| \_\_| |_/\_|  |_/\_| |_/\_|    "
+echo "___  ____       _     _     _  __ _        ______ _   _ ___  ___  ___  ______ "
+echo "|  \/  (_)     (_)   | |   (_)/ _| |       | ___ \ | | ||  \/  | / _ \ | ___ \\"
+echo "| .  . |_ _ __  _ ___| |__  _| |_| |_   __ | |_/ / |_| || .  . |/ /_\ \| |_/ /"
+echo "| |\/| | | '_ \| / __| '_ \| |  _| __| |__||    /|  _  || |\/| ||  _  ||  __/ "
+echo "| |  | | | | | | \__ \ | | | | | | |_      | |\ \| | | || |  | || | | || |    "
+echo "\_|  |_/_|_| |_|_|___/_| |_|_|_|  \__|     \_| \_\_| |_/\_|  |_/\_| |_/\_|    "
 echo " "
 echo " "
 
@@ -39,7 +39,16 @@ echo "IP address set in inventory file"
 rm ~/minishift-example
 cp minishift-example ~/minishift-example
 
-sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
+# Check for os because sed works differently on linux and mac
+if [[ "$OSTYPE" == "linux-gnu" ]]
+then
+    echo "Linux detected"
+    sed -i "s/ip_address/${IP}/g" ~/minishift-example
+elif [[ "$OSTYPE" == "darwin"* ]]
+then
+    echo "OSX detected"
+    sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
+fi
 
 # # setting the docker pull secret for any new pod
 oc login https://$IP:8443 -u developer -p developer
