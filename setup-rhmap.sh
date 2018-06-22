@@ -108,24 +108,46 @@ git checkout "$branch"
 sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/core.yml
 sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/1-node-mbaas.yml
 
-# details for mbaas
-oc project rhmap-1-node-mbaas
-echo " "
-echo "__________________________________________________________________________________________________________________ "
+# details for rhmap
 echo " "
 echo " "
+echo " _____ _             _ _             _        __      "
+echo "/  ___| |           | (_)           (_)      / _|     "
+echo "\ \`--.| |_ _   _  __| |_  ___   ___  _ _ __ | |_ ___  "
+echo " \`--. \ __| | | |/ _\` | |/ _ \ |___|| | '_ \|  _/ _ \ "
+echo "/\__/ / |_| |_| | (_| | | (_) |     | | | | | || (_) |"
+echo "\____/ \__|\__,_|\__,_|_|\___/      |_|_| |_|_| \___/ "
+echo " "
+echo " "
+oc project rhmap-core > /dev/null 2>&1
+echo "RHMAP Studio URL : "
+echo "https://"$(oc get route/rhmap -o template --template {{.spec.host}})
+echo " "
+echo "RHMAP Studio Login Details : "
+echo "Studio login = "$(oc set env pod/$(oc get pods | grep 'millicore' | awk '{print $1}') --list | grep FH_ADMIN_USER_NAME | awk -F'=' '{print $2}')
+echo "Studio password = "$(oc set env pod/$(oc get pods | grep 'millicore' | awk '{print $1}') --list | grep FH_ADMIN_USER_PASSWORD | awk -F'=' '{print $2}')
+echo " "
+echo " "
+echo "Openshift Console URL :"
+echo "https://${IP}:8443/console/"
+echo " "
+echo " "
+echo "___  ____                            _____           "
+echo "|  \/  | |                          |  ___|          "
+echo "| .  . | |__   __ _  __ _ ___   ___ | |__ _ ____   __"
+echo "| |\/| | '_ \ / _\` |/ _\` / __| |___||  __| '_ \ \ / /"
+echo "| |  | | |_) | (_| | (_| \__ \      | |__| | | \ V / "
+echo "\_|  |_/_.__/ \__,_|\__,_|___/      \____/_| |_|\_/  "
+echo " "
+echo " "
+oc project rhmap-1-node-mbaas > /dev/null 2>&1
+echo "DETAILS FOR CREATING AN MBAAS TARGET AND ENVIRONMENT IN RHMAP"
 echo " "
 echo "Mbaas key : "
 oc env dc/fh-mbaas --list | grep FHMBAAS_KEY
 echo " "
 echo "Mbaas url :"
 echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
-echo " "
-echo "Openshift Console URL :"
-echo "https://${IP}:8443/console/"
-echo " "
-echo "__________________________________________________________________________________________________________________ "
-echo " "
 echo " "
 echo "Get oAuth token for enviroment setup use this link :"
 echo "https://${IP}:8443/oauth/token/request "
