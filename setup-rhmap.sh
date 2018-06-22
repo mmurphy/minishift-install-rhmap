@@ -1,4 +1,29 @@
 #!/bin/bash
+echo " "
+echo "___  ____       _     _     _  __ _        ______ _   _ ___  ___  ___  ______ "
+echo "|  \/  (_)     (_)   | |   (_)/ _| |       | ___ \ | | ||  \/  | / _ \ | ___ \\"
+echo "| .  . |_ _ __  _ ___| |__  _| |_| |_   __ | |_/ / |_| || .  . |/ /_\ \| |_/ /"
+echo "| |\/| | | '_ \| / __| '_ \| |  _| __| |__||    /|  _  || |\/| ||  _  ||  __/ "
+echo "| |  | | | | | | \__ \ | | | | | | |_      | |\ \| | | || |  | || | | || |    "
+echo "\_|  |_/_|_| |_|_|___/_| |_|_|_|  \__|     \_| \_\_| |_/\_|  |_/\_| |_/\_|    "
+echo " "
+echo " "
+
+                                                                               
+
+function Progress {
+	let precentage=(${1}*100/${2}*100)/100
+	let done=(${precentage}*6)/10
+	let undone=60-$done
+# Build progressbar string lengths
+	done=$(printf "%${done}s")
+	undone=$(printf "%${undone}s")
+# Output example:
+# Progress : [####################--------------------] 50%
+printf "\rProgress : [${done// /#}${undone// /-}] ${precentage}%%"
+
+}
+
 
 # login to docker
 docker login
@@ -14,7 +39,16 @@ echo "IP address set in inventory file"
 rm ~/minishift-example
 cp minishift-example ~/minishift-example
 
-sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
+# Check for os because sed works differently on linux and mac
+if [[ "$OSTYPE" == "linux-gnu" ]]
+then
+    echo "Linux detected"
+    sed -i "s/ip_address/${IP}/g" ~/minishift-example
+elif [[ "$OSTYPE" == "darwin"* ]]
+then
+    echo "OSX detected"
+    sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
+fi
 
 # # setting the docker pull secret for any new pod
 oc login https://$IP:8443 -u developer -p developer
@@ -35,13 +69,14 @@ then
     oc delete project rhmap-core > /dev/null 2>&1
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
-    i=1
-    while [ "$i" -ne 11 ]
+    i=100
+    for num in $(seq 1 ${i})
     do
-        echo $i
-        i=$[$i+1]
-        sleep 1
+        sleep 0.1
+        Progress ${num} ${i}
     done
+    echo " "
+    echo " "
 fi
 # create the projects
 oc new-project rhmap-core
