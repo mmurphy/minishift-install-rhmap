@@ -69,11 +69,11 @@ then
     oc delete project rhmap-core > /dev/null 2>&1
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
-    i=1
-    for num in $(seq 1 50)
+    i=100
+    for num in $(seq 1 ${i})
     do
         sleep 0.1
-        Progress ${num} 50
+        Progress ${num} ${i}
     done
     echo " "
     echo " "
