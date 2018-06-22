@@ -120,3 +120,12 @@ oc env dc/fh-mbaas --list | grep FHMBAAS_KEY
 echo " "
 echo "Mbaas url :"
 echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
+echo " "
+echo "Openshift Console URL :"
+echo "https://${IP}:8443/console/"
+echo " "
+echo "__________________________________________________________________________________________________________________ "
+echo " "
+echo " "
+echo "Get oAuth token for enviroment setup use this link :"
+echo "https://${IP}:8443/oauth/token/request "
