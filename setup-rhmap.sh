@@ -68,6 +68,7 @@ then
     echo "Deleting existing projects"
     oc delete project rhmap-core > /dev/null 2>&1
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
+    oc delete project $(oc projects | grep 'RHMAP Environment' | awk '{print $1}') > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
     i=100
     for num in $(seq 1 ${i})
