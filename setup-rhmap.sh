@@ -70,18 +70,23 @@ then
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
     oc delete project $(oc projects | grep 'RHMAP Environment' | awk '{print $1}') > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
-    i=100
-    for num in $(seq 1 ${i})
-    do
-        sleep 0.1
-        Progress ${num} ${i}
-    done
     echo " "
     echo " "
 fi
 # create the projects
-oc new-project rhmap-core
-oc new-project rhmap-1-node-mbaas
+i=100
+until oc new-project rhmap-1-node-mbaas > /dev/null 2>&1 && oc new-project rhmap-core > /dev/null 2>&1
+do
+    sleep 0.1
+    num=$[$num+1]
+    if [[ "$num" < "$i" ]]
+    then
+        Progress ${num} ${i}
+    fi
+done
+Progress ${i} ${i}
+echo " "
+echo " "
 
 # checkout the correct branch e.g. release-4.6.0-rc1
 echo "enter branch/tag name e.g. release-4.6.0-rc1:"
@@ -151,3 +156,6 @@ echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
 echo " "
 echo "Get oAuth token for enviroment setup use this link :"
 echo "https://${IP}:8443/oauth/token/request "
+
+
+                                                     
