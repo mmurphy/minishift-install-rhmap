@@ -74,12 +74,12 @@ then
     echo " "
 fi
 # create the projects
-i=100
+i=200
 until oc new-project rhmap-1-node-mbaas > /dev/null 2>&1 && oc new-project rhmap-core > /dev/null 2>&1
 do
     sleep 0.1
     num=$[$num+1]
-    if [[ "$num" < "$i" ]]
+    if (( $num < $i ))
     then
         Progress ${num} ${i}
     fi
