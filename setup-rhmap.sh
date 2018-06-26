@@ -154,8 +154,11 @@ echo " "
 echo "Mbaas url :"
 echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
 echo " "
-echo "Get oAuth token for enviroment setup use this link :"
+# `oc whoami -t` generates a one time token
+echo "oAuth token for enviroment setup :"
 echo "https://${IP}:8443/oauth/token/request "
+oc whoami -t
+
 
 
                                                      
