@@ -74,21 +74,22 @@ then
     echo "Waiting for OpenShift to remove projects"
     echo " "
     echo " "
+
+    # create the projects
+    i=200
+    until oc new-project rhmap-demo-mbaas > /dev/null 2>&1 && oc new-project rhmap-demo-core > /dev/null 2>&1 
+    do
+        sleep 0.1
+        num=$[$num+1]
+        if (( $num < $i ))
+        then
+            Progress ${num} ${i}
+        fi
+    done
+    Progress ${i} ${i}
+    echo " "
+    echo " "
 fi
-# create the projects
-i=200
-until oc new-project rhmap-demo-mbaas > /dev/null 2>&1 && oc new-project rhmap-demo-core > /dev/null 2>&1 
-do
-    sleep 0.1
-    num=$[$num+1]
-    if (( $num < $i ))
-    then
-        Progress ${num} ${i}
-    fi
-done
-Progress ${i} ${i}
-echo " "
-echo " "
 
 # checkout the correct branch e.g. release-4.6.0-rc1
 echo "enter branch/tag name e.g. release-4.6.0-rc1:"
