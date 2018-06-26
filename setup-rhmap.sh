@@ -138,28 +138,5 @@ echo "Openshift Console URL :"
 echo "https://${IP}:8443/console/"
 echo " "
 echo " "
-echo "___  ____                            _____           "
-echo "|  \/  | |                          |  ___|          "
-echo "| .  . | |__   __ _  __ _ ___   ___ | |__ _ ____   __"
-echo "| |\/| | '_ \ / _\` |/ _\` / __| |___||  __| '_ \ \ / /"
-echo "| |  | | |_) | (_| | (_| \__ \      | |__| | | \ V / "
-echo "\_|  |_/_.__/ \__,_|\__,_|___/      \____/_| |_|\_/  "
-echo " "
-echo " "
-oc project rhmap-1-node-mbaas > /dev/null 2>&1
-echo "DETAILS FOR CREATING AN MBAAS TARGET AND ENVIRONMENT IN RHMAP"
-echo " "
-echo "Mbaas key : "
-oc env dc/fh-mbaas --list | grep FHMBAAS_KEY
-echo " "
-echo "Mbaas url :"
-echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
-echo " "
-# `oc whoami -t` generates a one time token
-echo "oAuth token for enviroment setup :"
-echo "https://${IP}:8443/oauth/token/request "
-oc whoami -t
-
-
 
                                                      
