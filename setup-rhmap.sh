@@ -113,6 +113,11 @@ git checkout "$branch"
 sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/core.yml
 sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/1-node-mbaas.yml
 
+
+# IMPORTANT!
+# This is needed for local development so projects will eb created successfully. https://issues.jboss.org/browse/RHMAP-20574
+oc env dc/millicore HTTPD_SERVICE_NAME=localhost
+
 # details for rhmap
 echo " "
 echo " "
