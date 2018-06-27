@@ -68,25 +68,28 @@ then
     echo "Deleting existing projects"
     oc delete project rhmap-core > /dev/null 2>&1
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
+    oc delete project rhmap-demo-core > /dev/null 2>&1
+    oc delete project rhmap-demo-mbaas > /dev/null 2>&1
     oc delete project $(oc projects | grep 'RHMAP Environment' | awk '{print $1}') > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
     echo " "
     echo " "
+
+    # create the projects
+    i=200
+    until oc new-project rhmap-demo-mbaas > /dev/null 2>&1 && oc new-project rhmap-demo-core > /dev/null 2>&1 
+    do
+        sleep 0.1
+        num=$[$num+1]
+        if (( $num < $i ))
+        then
+            Progress ${num} ${i}
+        fi
+    done
+    Progress ${i} ${i}
+    echo " "
+    echo " "
 fi
-# create the projects
-i=200
-until oc new-project rhmap-1-node-mbaas > /dev/null 2>&1 && oc new-project rhmap-core > /dev/null 2>&1
-do
-    sleep 0.1
-    num=$[$num+1]
-    if (( $num < $i ))
-    then
-        Progress ${num} ${i}
-    fi
-done
-Progress ${i} ${i}
-echo " "
-echo " "
 
 # checkout the correct branch e.g. release-4.6.0-rc1
 echo "enter branch/tag name e.g. release-4.6.0-rc1:"
@@ -110,8 +113,7 @@ git checkout "$branch"
 
 
 # ansible installer for rhmap
-sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/core.yml
-sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/1-node-mbaas.yml
+sudo ansible-playbook -i ~/minishift-example --tags=deploy -e strict_mode=false -e core_templates_dir=~/work/fh-core-openshift-templates/generated -e mbaas_templates_dir=~/work/fh-openshift-templates -e mbaas_target_id=test playbooks/poc.yml
 
 # details for rhmap
 echo " "
@@ -137,28 +139,5 @@ echo "Openshift Console URL :"
 echo "https://${IP}:8443/console/"
 echo " "
 echo " "
-echo "___  ____                            _____           "
-echo "|  \/  | |                          |  ___|          "
-echo "| .  . | |__   __ _  __ _ ___   ___ | |__ _ ____   __"
-echo "| |\/| | '_ \ / _\` |/ _\` / __| |___||  __| '_ \ \ / /"
-echo "| |  | | |_) | (_| | (_| \__ \      | |__| | | \ V / "
-echo "\_|  |_/_.__/ \__,_|\__,_|___/      \____/_| |_|\_/  "
-echo " "
-echo " "
-oc project rhmap-1-node-mbaas > /dev/null 2>&1
-echo "DETAILS FOR CREATING AN MBAAS TARGET AND ENVIRONMENT IN RHMAP"
-echo " "
-echo "Mbaas key : "
-oc env dc/fh-mbaas --list | grep FHMBAAS_KEY
-echo " "
-echo "Mbaas url :"
-echo "https://"$(oc get route/mbaas -o template --template {{.spec.host}})
-echo " "
-# `oc whoami -t` generates a one time token
-echo "oAuth token for enviroment setup :"
-echo "https://${IP}:8443/oauth/token/request "
-oc whoami -t
-
-
 
                                                      
