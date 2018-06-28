@@ -3,15 +3,19 @@
 ## About
 
 The script does the following
-- Prompts used for IP address for minishift
-- Creates a inventory file (minishift-example) with the IP address in your home drive to be used with the Ansible installer
 - Logs into Docker
 - Logs onto Minishift with oc
+- Prompts used for IP address for minishift
+- Creates a inventory file (minishift-example) with the IP address in your home drive to be used with the Ansible installer
 - Adds a docker secret to all new projects
-- Creates two projects `rhmap-core` and `rhmap-1-node-mbaas`
+- Deletes existing rhmap projects when used with -c flag
+- Creates projects `rhmap-core` and `rhmap-1-node-mbaas` 
 - Prompts user for branch or tag and git checkout
 - Runs Ansible script for installing rhmap-core and mbaas
-- Outputs the mbaas key and url
+- Setups mbaas target in the studio
+- Creates three environments [dev,live,test] 
+- Outputs studio username, password and studio url
+
 
 
 ## Prerequisites
@@ -29,7 +33,7 @@ The script does the following
 - Change to directory `cd minishift-install-rhmap`
 - Make the script runable `chmod 775 setup-rhmap.sh`
 - Run the script `./setup-rhmap.sh`
-- For Clean install run `./setup-rhmap.sh -c` this removes existing `rhmap-core` and `rhmap-1-node-mbaas` projects.
+- For clean install run `./setup-rhmap.sh -c` this removes existing `rhmap-core` and `rhmap-1-node-mbaas` projects.
 
 ## Issues
 Make sure the paths in the script match you local directory structure
