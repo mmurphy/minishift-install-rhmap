@@ -68,8 +68,6 @@ then
     echo "Deleting existing projects"
     oc delete project rhmap-core > /dev/null 2>&1
     oc delete project rhmap-1-node-mbaas > /dev/null 2>&1
-    oc delete project rhmap-demo-core > /dev/null 2>&1
-    oc delete project rhmap-demo-mbaas > /dev/null 2>&1
     oc delete project $(oc projects | grep 'RHMAP Environment' | awk '{print $1}') > /dev/null 2>&1
     echo "Waiting for OpenShift to remove projects"
     echo " "
@@ -77,7 +75,7 @@ then
 
     # create the projects
     i=200
-    until oc new-project rhmap-demo-mbaas > /dev/null 2>&1 && oc new-project rhmap-demo-core > /dev/null 2>&1 
+    until oc new-project rhmap-1-node-mbaas > /dev/null 2>&1 && oc new-project rhmap-core > /dev/null 2>&1 
     do
         sleep 0.1
         num=$[$num+1]
@@ -92,7 +90,7 @@ then
 fi
 
 # checkout the correct branch e.g. release-4.6.0-rc1
-echo "enter branch/tag name e.g. release-4.6.0-rc1:"
+echo "enter branch/tag name e.g. FH-v4.6"
 read branch
 
 cd ~/work/fh-openshift-templates
