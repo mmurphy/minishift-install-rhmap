@@ -90,7 +90,7 @@ then
 fi
 
 # checkout the correct branch e.g. release-4.6.0-rc1
-echo "enter branch/tag name e.g. release-4.6.0-rc1 or FH-v4.6"
+echo "enter branch/tag name e.g. FH-v4.6"
 read branch
 
 cd ~/work/fh-openshift-templates
