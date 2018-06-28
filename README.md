@@ -9,7 +9,7 @@ The script does the following
 - Creates a inventory file (minishift-example) with the IP address in your home drive to be used with the Ansible installer
 - Adds a docker secret to all new projects
 - Deletes existing rhmap projects when used with -c flag
-- Creates projects `rhmap-demo-core` and `rhmap-demo-mbaas` 
+- Creates projects `rhmap-core` and `rhmap-1-node-mbaas` 
 - Prompts user for branch or tag and git checkout
 - Runs Ansible script for installing rhmap-core and mbaas
 - Setups mbaas target in the studio
@@ -33,7 +33,7 @@ The script does the following
 - Change to directory `cd minishift-install-rhmap`
 - Make the script runable `chmod 775 setup-rhmap.sh`
 - Run the script `./setup-rhmap.sh`
-- For clean install run `./setup-rhmap.sh -c` this removes existing `rhmap-demo-core` and `rhmap-demo-mbaas` projects.
+- For clean install run `./setup-rhmap.sh -c` this removes existing `rhmap-core` and `rhmap-1-node-mbaas` projects.
 
 ## Issues
 Make sure the paths in the script match you local directory structure
