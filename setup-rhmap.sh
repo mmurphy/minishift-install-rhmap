@@ -94,20 +94,17 @@ echo "enter branch/tag name e.g. FH-v4.6"
 read branch
 
 cd ~/work/fh-openshift-templates
-git checkout master 
-git pull upstream master
-git fetch upstream master --prune --tags
+git fetch upstream --all
 git checkout "$branch"
+git pull upstream "$branch"
 cd ~/work/fh-core-openshift-templates
-git checkout master 
-git pull upstream master
-git fetch upstream master --prune --tags
+git fetch upstream --all
 git checkout "$branch"
+git pull upstream "$branch"
 cd ~/work/rhmap-ansible
-git checkout master 
-git pull upstream master
-git fetch upstream master --prune --tags
+git fetch upstream --all
 git checkout "$branch"
+git pull upstream "$branch"
 
 
 # ansible installer for rhmap
