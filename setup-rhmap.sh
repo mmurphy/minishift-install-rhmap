@@ -39,15 +39,13 @@ echo "IP address set in inventory file"
 rm ~/minishift-example
 cp minishift-example ~/minishift-example
 
-# Check for os because sed works differently on linux and mac
-if [[ "$OSTYPE" == "linux-gnu" ]]
-then
-    echo "Linux detected"
-    sed -i "s/ip_address/${IP}/g" ~/minishift-example
-elif [[ "$OSTYPE" == "darwin"* ]]
-then
-    echo "OSX detected"
-    sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
+# check which flavour of sed is installed
+if sed --posix 's/ / /' < /dev/null > /dev/null 2>&1 ; then
+  echo "gnu sed detected"
+  sed -i "s/ip_address/${IP}/g" ~/minishift-example
+else
+  echo "not gnu sed detected (probably OSX)"
+  sed -i '' "s/ip_address/${IP}/g" ~/minishift-example
 fi
 
 # # setting the docker pull secret for any new pod
