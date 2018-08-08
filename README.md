@@ -23,7 +23,7 @@ The script does the following
 - Ansible installed
 - oc install (>=3.7)
 - [Minishift installed](https://github.com/fheng/help/blob/master/new_hires/new_hire_chapter_2.2.md#install-minishift-locally)
-- The following repos cloned to your `${HOME}/work` directory
+- The following repos cloned to your `${HOME}/work` directory - these repos must have a remote named `upstream`
   - [fh-core-openshift-templates](https://github.com/fheng/fh-core-openshift-templates)
   - [fh-openshift-templates](https://github.com/feedhenry/fh-openshift-templates)
   - [rhmap-ansible](https://github.com/fheng/rhmap-ansible)
